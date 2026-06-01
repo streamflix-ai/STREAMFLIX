@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>STREAMFLIX</title>
+
+<style>
+
+body{
+    background:#111;
+    color:white;
+    font-family:Arial;
+    margin:0;
+}
+
+.navbar{
+    background:black;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+html{
+    scroll-behavior:smooth;
+}
+.logo{
+    color:red;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.nav-link{
+    margin-left:20px;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.navbar a:hover{
+    color:red;
+}
+
+.hero{
+    height:650px;
+    background:
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)),
+    url('images/movie1.jpg');
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+}
+
+.hero h1{
+    font-size:50px;
+}
+
+.hero p{
+    font-size:22px;
+}
+
+.hero button{
+    background:red;
+    color:white;
+    border:none;
+    padding:15px 30px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.section-title{
+    margin-left:40px;
+    margin-top:40px;
+    font-size:40px;
+}
+
+.movies{
+    display:grid;
+    grid-template-columns:repeat(4,220px);
+    gap:25px;
+    justify-content:center;
+    margin-top:20px;
+}
+
+.movie{
+    width:220px;
+    background:#222;
+    border-radius:10px;
+    overflow:hidden;
+    transition:0.3s;
+    box-shadow:0 4px 10px rgba(0,0,0,0.5);
+}
+
+.movie:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 20px red;
+}
+
+.movie img{
+    width:100%;
+    height:330px;
+    object-fit:cover;
+}
+
+.movie h3{
+    text-align:center;
+}
+
+button{
+    background:red;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:5px;
+    cursor:pointer;
+    display:block;
+    margin:15px auto;
+}
+
+button:hover{
+    background:darkred;
+}
+
+footer{
+    background:black;
+    color:gray;
+    text-align:center;
+    padding:20px;
+    margin-top:50px;
+}
+.movie span{
+    font-weight:bold;
+}
+#searchInput{
+    margin-left:20px;
+    padding:10px;
+    border:none;
+    border-radius:5px;
+}
+
+   @media (max-width:768px){
+
+    .movies{
+        grid-template-columns:repeat(2,180px);
+    }
+
+    .hero h1{
+        font-size:35px;
+    }
+
+    .section-title{
+        font-size:28px;
+        margin-left:20px;
+    }
+
+    #searchInput{
+        width:120px;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .movies{
+        grid-template-columns:1fr;
+    }
+
+    .navbar{
+        flex-wrap:wrap;
+    }
+
+    .hero h1{
+        font-size:28px;
+    }
+
+}
+@media (max-width:768px){
+
+    body{
+        background:blue;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+    <span class="logo">STREAMFLIX</span>
+
+   <a href="#" class="nav-link">Home</a>
+   <a href="#movies" class="nav-link">Movies</a>
+   <a href="#tvshows" class="nav-link">TV Shows</a>
+   <a href="#sports" class="nav-link">Sports</a>
+
+    <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchMovies()">
+
+     <span id="profile" style="margin-left:auto;color:white;">
+    👤 Guest
+  </span>
+       <button onclick="logout()" style="margin-left:10px;">
+       Logout
+   </button>
+
+</div>
+
+<section class="hero">
+    <h1>Unlimited Movies, TV Shows & Sports</h1>
+    <p>Watch anywhere. Cancel anytime.</p>
+   
+  <a href="login.html">
+    <button>Start Watching</button>
+</a>
+
+</section>
+<h2 class="section-title"> Live Score</h2>
+
+<div class="movies">
+
+    <div class="movie" style="padding:20px; text-align:center;">
+
+        <h3>India vs Australia</h3>
+
+        <p id="score" style="font-size:18px;">
+            Loading score...
+        </p>
+
+        <span style="
+            background:red;
+            padding:5px 10px;
+            border-radius:5px;
+            display:inline-block;
+        ">LIVE</span>
+
+    </div>
+
+</div>
+<h2 class="section-title"> Next Match Countdown</h2>
+
+<div class="movies">
+
+    <div class="movie movie-card" style="padding:20px; text-align:center;">
+
+        <h3>India vs Australia</h3>
+
+        <p id="countdown" style="font-size:28px;">
+            Loading...
+        </p>
+
+    </div>
+
+</div>
+<h2 id="movies" class="section-title">Trending Now</h2>
+<div class="movies">
+   <div class="movie movie-card" onclick="openPopup('Black Panther')">
+        <img src="images/movie1.jpg">
+        <h3>Black Panther</h3>
+        <a href="https://www.youtube.com/watch?v=xjDjIWPwcPU" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+   <div class="movie movie-card" onclick="openPopup('Spider-Man')">
+        <img src="images/movie2.jpg">
+        <h3>Spider-Man</h3>
+        <a href="https://www.youtube.com/watch?v=JfVOs4VSpmA" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+    <div class="movie movie-card" onclick="openPopup('Interstellar')">
+        <img src="images/movie3.jpg">
+        <h3>Interstellar</h3>
+        <a href="https://www.youtube.com/watch?v=zSWdZVtXT7E" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+    <div class="movie movie-card" onclick="openPopup('Avengers')">
+        <img src="images/movie4.jpg">
+        <h3>Avengers</h3>
+        <a href="https://www.youtube.com/watch?v=TcMBFSGVi1c" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+</div>
+
+<h2 class="section-title">Action Movies</h2>
+<div class="movies">
+
+   <div class="movie movie-card">
+        <img src="images/movie5.jpg">
+        <h3>John Wick</h3>
+        <a href="https://www.youtube.com/watch?v=2AUmvWm5ZDQ" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+    <div class="movie movie-card">
+        <img src="images/movie6.jpg">
+        <h3>The Batman</h3>
+        <a href="https://www.youtube.com/watch?v=mqqft2x_Aa4" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+    <div class="movie movie-card">
+        <img src="images/movie7.jpg">
+        <h3>Mission Impossible</h3>
+        <a href="https://www.youtube.com/watch?v=avz06PDqDbM" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+   <div class="movie movie-card">
+        <img src="images/movie8.jpg">
+        <h3>Mad Max</h3>
+        <a href="https://www.youtube.com/watch?v=hEJnMQG9ev8" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+</div>
+
+<h2 id="tvshows" class="section-title">TV Shows</h2>
+<div class="movies">
+
+   <div class="movie movie-card">
+        <img src="images/show1.jpg">
+        <h3>Breaking Bad</h3>
+        <a href="https://www.youtube.com/watch?v=HhesaQXLuRY" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+   <div class="movie movie-card">
+        <img src="images/show2.jpg">
+        <h3>Stranger Things</h3>
+        <a href="https://www.youtube.com/watch?v=b9EkMc79ZSU" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+    <div class="movie movie-card">
+        <img src="images/show3.jpg">
+        <h3>The Boys</h3>
+        <a href="https://www.youtube.com/watch?v=M1bhOaLV4FU" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+    <div class="movie movie-card">
+        <img src="images/show4.jpg">
+        <h3>Wednesday</h3>
+        <a href="https://www.youtube.com/watch?v=Di310WS8zLk" target="_blank">
+            <button>Watch Trailer</button>
+        </a>
+    </div>
+
+</div>
+
+<h2 id="sports" class="section-title">Featured Match</h2>
+
+<div class="movies">
+
+    <div class="movie" style="position:relative;">
+
+        <span style="
+            position:absolute;
+            top:10px;
+            left:10px;
+            background:red;
+            color:white;
+            padding:5px 10px;
+            font-size:12px;
+            border-radius:5px;
+        ">LIVE</span>
+
+        <img src="images/sport1.jpg">
+
+        <h3>India vs Australia</h3>
+
+        <a href="https://www.youtube.com/results?search_query=cricket+live" target="_blank">
+            <button>Watch Live</button>
+        </a>
+
+    </div>
+
+   <div class="movie movie-card">
+
+        <img src="images/sport2.jpg">
+        <h3>Cricket Live</h3>
+        <a href="https://www.youtube.com/results?search_query=cricket+highlights" target="_blank">
+            <button>Watch Highlights</button>
+        </a>
+    </div>
+
+     <div class="movie movie-card">
+        <img src="images/sport3.jpg">
+        <h3>UFC Live</h3>
+        <a href="https://www.youtube.com/results?search_query=ufc+highlights" target="_blank">
+            <button>Watch Highlights</button>
+        </a>
+    </div>
+
+    <div class="movie movie-card">
+        <img src="images/sport4.jpg">
+        <h3>NBA Live</h3>
+        <a href="https://www.youtube.com/results?search_query=nba+highlights" target="_blank">
+            <button>Watch Highlights</button>
+        </a>
+    </div>
+
+</div>
+<div id="popup" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+<div style="
+background:#222;
+padding:30px;
+border-radius:10px;
+width:350px;
+text-align:center;
+">
+
+<h2 id="popupTitle">Movie Title</h2>
+
+<p id="popupText">
+Movie description here
+</p>
+
+<button onclick="closePopup()">
+Close
+</button>
+
+</div>
+
+</div>
+
+<footer>
+    <p>© 2026 STREAMFLIX. All Rights Reserved.</p>
+</footer>
+<script>
+
+let runs = 245;
+let wickets = 6;
+let overs = 45;
+
+function updateScore() {
+
+    // fake live updates
+    runs += Math.floor(Math.random() * 3);
+    overs += 0.1;
+
+    document.getElementById("score").innerHTML =
+        "IND: " + runs + "/" + wickets + " (" + overs.toFixed(1) + " overs)";
+
+}
+
+// update every 3 seconds
+setInterval(updateScore, 3000);
+
+// first load
+updateScore();
+
+</script>
+<script>
+
+// Set match start time
+let matchDate = new Date("June 5, 2026 18:00:00").getTime();
+
+function updateCountdown() {
+
+    let now = new Date().getTime();
+
+    let distance = matchDate - now;
+
+    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+        days + "d " +
+        hours + "h " +
+        minutes + "m " +
+        seconds + "s ";
+
+    if (distance < 0) {
+        document.getElementById("countdown").innerHTML = "TIMER WORKING";
+    }
+}
+
+setInterval(updateCountdown, 1000);
+
+updateCountdown();
+
+</script>
+
+<script>
+
+function searchMovies() {
+
+    let input = document.getElementById("searchInput").value.toLowerCase();
+
+    let cards = document.getElementsByClassName("movie-card");
+
+    for(let i = 0; i < cards.length; i++){
+
+        let title = cards[i].getElementsByTagName("h3")[0];
+
+        if(title.innerHTML.toLowerCase().includes(input)){
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+</script>
+<script>
+
+let username = localStorage.getItem("username");
+
+if(username){
+    document.getElementById("profile").innerHTML =
+        "👤 " + username;
+}
+
+</script>
+<script>
+
+function logout(){
+
+    localStorage.removeItem("username");
+
+    window.location.href = "login.html";
+
+}
+
+</script>
+<script>
+
+function openPopup(title){
+
+    document.getElementById("popup").style.display = "flex";
+
+    document.getElementById("popupTitle").innerHTML = title;
+
+    if(title === "Black Panther"){
+        document.getElementById("popupText").innerHTML =
+        "⭐ Rating: 7.3/10<br>📅 Year: 2018<br>👑 Marvel superhero adventure.";
+    }
+
+    else if(title === "Spider-Man"){
+        document.getElementById("popupText").innerHTML =
+        "⭐ Rating: 8.2/10<br>📅 Year: 2021<br>🕷️ Multiverse action adventure.";
+    }
+
+    else{
+        document.getElementById("popupText").innerHTML =
+        "Watch " + title + " on STREAMFLIX.";
+    }
+
+}
+
+function closePopup(){
+
+    document.getElementById("popup").style.display = "none";
+
+}
+
+</script>
+</body>
+</html>
